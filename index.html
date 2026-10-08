@@ -93,7 +93,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="искать">
-    <input type="search" id="поиск" placeholder="Город или направление — Актау, видео" autocomplete="off">
+    <input type="search" id="поиск" placeholder="Город — например, Актау" autocomplete="off">
     <div class="кнопки" role="group" aria-label="Отбор">
       <button id="к-все" aria-pressed="true">Все</button>
       <button id="к-свои" aria-pressed="false">Проверенные</button>
@@ -104,7 +104,7 @@ tr:last-child td{border-bottom:0}
   <div class="обёртка-таблицы">
     <table>
       <thead>
-        <tr><th>Город</th><th class="право">Всего</th><th>Направления</th><th>Работали</th></tr>
+        <tr><th>Город</th><th class="право">Работали</th></tr>
       </thead>
       <tbody id="тело"></tbody>
     </table>
@@ -141,8 +141,7 @@ function нарисовать(){
     if (отбор === "свои" && !г.св) return false;
     if (отбор === "мало" && г.н > 2) return false;
     if (!запрос) return true;
-    return г.г.toLowerCase().includes(запрос)
-        || (г.нп || "").toLowerCase().includes(запрос);
+    return г.г.toLowerCase().includes(запрос);
   });
   $("#тело").innerHTML = список.length ? список.map((г) => {
     const метка = г.св
@@ -150,11 +149,9 @@ function нарисовать(){
       : '<span class="метка нет">не работали</span>';
     return "<tr>" +
       "<td class=\"город\">" + экранировать(г.г) + "</td>" +
-      "<td class=\"право счёт\">" + г.н + "</td>" +
-      "<td class=\"напр\">" + (экранировать(г.нп) || "не размечено") + "</td>" +
-      "<td>" + метка + "</td>" +
+      "<td class=\"право\">" + метка + "</td>" +
     "</tr>";
-  }).join("") : '<tr><td colspan="4" class="пусто">По этому запросу ничего нет</td></tr>';
+  }).join("") : '<tr><td colspan="2" class="пусто">По этому запросу ничего нет</td></tr>';
 }
 
 $("#поиск").addEventListener("input", нарисовать);
